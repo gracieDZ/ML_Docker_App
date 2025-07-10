@@ -1,13 +1,18 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 import pandas as pd
 import xgboost as xgb
 import joblib
+import os
 
 app = Flask(__name__)
 
 # Load a pre-trained model (you can train and save it with joblib)
 model = joblib.load("model.joblib")
 
+@app.route("/", methods=["GET"])
+def index():
+    return send_from_directory('.', 'index.html')
+    
 @app.route("/predict", methods=["POST"])
 def predict():
     data = request.get_json()
